@@ -1,20 +1,25 @@
 {
-	"name": "kubernetesapply",
-	"displayName": "Kubernetes Apply",
-	"description": "Apply and Delete Kubernetes resource files",
-	"version": "0.0.1",
-	"publisher": "ShaiMendel",
-	"keywords": ["kubernetes", "apply", "yaml", "kubectl"],
-	"icon": "images/apply.png",
-	"engines": {
-		"vscode": "^1.43.0"
-	},
-	"categories": [
-		"Other"
+  "name": "kubernetesapply",
+  "displayName": "Kubernetes Apply",
+  "description": "Apply and Delete Kubernetes resource files",
+  "version": "0.0.1",
+  "keywords": [
+		"kubernetes",
+		"apply",
+		"yaml",
+		"kubectl"
 	],
-	"activationEvents": [
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
 		"onCommand:kubernetesapply.apply",
-		"onCommand:kubernetesapply.delete"
+		"onCommand:kubernetesapply.delete",
+		"onCommand:kustomizationapply.apply",
+		"onCommand:kustomizationapply.delete"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -26,6 +31,14 @@
 			{
 				"command": "kubernetesapply.delete",
 				"title": "K8S: Delete resource"
+			},
+			{
+				"command": "kustomizationapply.apply",
+				"title": "K8S: Apply Kustomization resource"
+			},
+			{
+				"command": "kustomizationapply.delete",
+				"title": "K8S: Delete Kustomization resource"
 			}
 		],
 		"menus": {
@@ -39,50 +52,42 @@
 					"command": "kubernetesapply.delete",
 					"group": "kubernetesapplygroup@2",
 					"when": "resourceExtname == .yaml"
+				},
+				{
+					"command": "kustomizationapply.apply",
+					"group": "kubernetesapplygroup@3",
+					"when": "resourceExtname == .yaml"
+				},
+				{
+					"command": "kustomizationapply.delete",
+					"group": "kubernetesapplygroup@4",
+					"when": "resourceExtname == .yaml"
 				}
 			]
 		}
 	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"lint": "eslint src --ext ts",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"test": ""
-	},
-	"devDependencies": {
-		"@semantic-release/github": "^7.0.5",
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^7.0.2",
-		"@types/node": "^13.11.0",
-		"@types/vscode": "^1.43.0",
-		"@typescript-eslint/eslint-plugin": "^2.26.0",
-		"@typescript-eslint/parser": "^2.26.0",
-		"eslint": "^6.8.0",
-		"glob": "^7.1.6",
-		"mocha": "^7.1.1",
-		"typescript": "^3.8.3",
-		"vscode-test": "^1.3.0"
-	},
-	"release": {
-		"branches": "master",
-		"verifyConditions": [
-			"@semantic-release/github"
-		],
-		"publish": [
-			"@semantic-release/github"
-		],
-		"success": [
-			"@semantic-release/github"
-		],
-		"fail": [
-			"@semantic-release/github"
-		]
-	},
-	"private": true,
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.91.0",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.11.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0"
+  },
+  	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/shaimendel/vscode-plugin-cicd-github-actions.git"
-  }
+		"url": "https://github.com/roo20/vscode-plugin-cicd-github-actions.git"
+	}
 }
