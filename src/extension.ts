@@ -22,23 +22,44 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		const terminal = selectTerminal();
-		terminal.sendText(`kubectl ${command} ${resourcePath}`);
+		terminal.sendText(`kubectl ${command} -f ${resourcePath}`);
+	}
+
+	function runKustomizationResourceCommand(command: string, uri: vscode.Uri | undefined) {
+		if (uri === undefined && vscode.window.activeTextEditor === undefined) {
+			return;
+		}
+
+		let resourcePath = '';
+		if (uri !== undefined) {
+			resourcePath = uri.fsPath;
+		}
+		else if (vscode.window.activeTextEditor !== undefined) {
+			const currentlyOpenTabfilePath = vscode.window.activeTextEditor.document.fileName;
+			resourcePath = path.basename(currentlyOpenTabfilePath);
+		}
+		if (!ensureTerminalExists()) {
+			return;
+		}
+
+		const terminal = selectTerminal();
+		terminal.sendText(`kubectl ${command} -k ${resourcePath}`);
 	}
 
 	let disposableApply = vscode.commands.registerCommand('kubernetesapply.apply', (uri:vscode.Uri) => {
-		runResourceCommand('apply -f', uri);
+		runResourceCommand('apply', uri);
 	});
 
 	let disposableDelete = vscode.commands.registerCommand('kubernetesapply.delete', (uri:vscode.Uri) => {
-		runResourceCommand('delete -f', uri);
+		runResourceCommand('delete', uri);
 	});
 
 	let disposableKApply = vscode.commands.registerCommand('kustomizationapply.apply', (uri:vscode.Uri) => {
-		runResourceCommand('apply -k', uri);
+		runKustomizationResourceCommand('apply', uri);
 	});
 
 	let disposableKDelete = vscode.commands.registerCommand('kustomizationapply.delete', (uri:vscode.Uri) => {
-		runResourceCommand('delete -k', uri);
+		runKustomizationResourceCommand('delete', uri);
 	});
 
 	context.subscriptions.push(disposableApply);

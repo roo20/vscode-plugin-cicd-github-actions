@@ -2,7 +2,7 @@
   "name": "kubernetesapply",
   "displayName": "Kubernetes Apply",
   "description": "Apply and Delete Kubernetes resource files",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [
 		"kubernetes",
 		"apply",
@@ -34,11 +34,11 @@
 			},
 			{
 				"command": "kustomizationapply.apply",
-				"title": "K8S: Apply Kustomization resource"
+				"title": "Kustomization Apply"
 			},
 			{
 				"command": "kustomizationapply.delete",
-				"title": "K8S: Delete Kustomization resource"
+				"title": "Kustomization Delete"
 			}
 		],
 		"menus": {
@@ -56,12 +56,12 @@
 				{
 					"command": "kustomizationapply.apply",
 					"group": "kubernetesapplygroup@3",
-					"when": "resourceExtname == .yaml"
+					"when": "explorerResourceIsFolder"
 				},
 				{
 					"command": "kustomizationapply.delete",
 					"group": "kubernetesapplygroup@4",
-					"when": "resourceExtname == .yaml"
+					"when": "explorerResourceIsFolder"
 				}
 			]
 		}
